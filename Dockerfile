@@ -4,6 +4,7 @@ FROM --platform=${BUILDPLATFORM} golang:1.14.3-alpine AS base
 WORKDIR /src
 ENV CGO_ENABLED=0
 COPY go.* .
+RUN go env GOCACHE
 RUN go mod download
 
 FROM base AS build
