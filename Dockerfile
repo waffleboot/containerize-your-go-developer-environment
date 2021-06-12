@@ -16,6 +16,7 @@ RUN --mount=target=. \
 
 FROM base AS unit-test
 RUN --mount=rw,target=. \
+    --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go test -v .
 
