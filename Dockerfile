@@ -10,10 +10,13 @@ COPY . .
 FROM base AS build
 ARG TARGETOS
 ARG TARGETARCH
-RUN --mount=type=cache,target=/root/.cache/go-build GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/example .
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
+    go build -o /out/example .
 
 FROM base AS unit-test
-RUN --mount=type=cache,target=/root/.cache/go-build go test -v .
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    go test -v .
 
 FROM golangci/golangci-lint:v1.27-alpine AS lint-base
 
