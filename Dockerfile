@@ -10,13 +10,13 @@ FROM base AS build
 ARG TARGETOS
 ARG TARGETARCH
 RUN --mount=target=. \
-    --mount=type=cache,target=~/.cache/go-build \
+    --mount=type=cache,target=/root/.cache/go-build \
     GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
     go build -o /out/example .
 
 FROM base AS unit-test
 RUN --mount=rw,target=. \
-    --mount=type=cache,target=~/.cache/go-build \
+    --mount=type=cache,target=/root/.cache/go-build \
     go test -v .
 
 FROM golangci/golangci-lint:v1.27-alpine AS lint-base
@@ -24,8 +24,8 @@ FROM golangci/golangci-lint:v1.27-alpine AS lint-base
 FROM base AS lint
 RUN --mount=rw,target=. \
     --mount=from=lint-base,src=/usr/bin/golangci-lint,target=/usr/bin/golangci-lint \
-    --mount=type=cache,target=~/.cache/go-build \
-    --mount=type=cache,target=~/.cache/golangci-lint \
+    --mount=type=cache,target=/root/.cache/go-build \
+    --mount=type=cache,target=/root/.cache/golangci-lint \
     golangci-lint run --timeout 10m0s ./...
 
 FROM scratch AS bin-unix
