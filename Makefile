@@ -1,4 +1,5 @@
 all: bin/example
+test: unit-test
 
 PLATFORM=local
 
@@ -6,3 +7,8 @@ PLATFORM=local
 
 bin/example:
 	@docker build . --target bin --output bin/ --platform $(PLATFORM)
+
+.PHONY: unit-test
+
+unit-test:
+	@docker build . --target unit-test
