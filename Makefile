@@ -2,4 +2,4 @@ target = bin
 
 all:
 	export DOCKER_BUILDKIT=1; \
-	docker build --target $(target) --output bin/ .
+	docker build --target $(target) --output bin/ --platform local .
