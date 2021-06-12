@@ -1,5 +1,6 @@
-target = bin
+all: bin/example
 
-all:
-	export DOCKER_BUILDKIT=1; \
-	docker build --target $(target) --output bin/ --platform local .
+.PHONY: bin/example
+
+bin/example:
+	@docker build . --target bin --output bin/ --platform local
